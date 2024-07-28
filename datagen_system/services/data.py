@@ -39,8 +39,8 @@ class DataGenerator:
     def generate_credit_score(self):
         return {
             "date": self.datetime.date().isoformat(),
-            "time": self.datetime.time().isoformat(),
-            "timestamp": self.datetime.timestamp(),
+            "user": self.generate_person(),
+            "score": self.general.random.randint(300, 850),
         }
 
     def generate_transaction(self, type: Annotated[str, ["card", "crypto"]]):
