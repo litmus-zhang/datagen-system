@@ -10,37 +10,43 @@ class DataGenerator:
         self.address = mimesis.Address()
         self.datetime = mimesis.Datetime()
         self.transaction = mimesis.Payment()
+        self.general = mimesis.Generic()
+        self.financial = mimesis.Finance()
+        self.text = mimesis.Text()
 
     def generate_person(self):
         return {
             "name": self.person.full_name(),
             "email": self.person.email(),
-            "age": self.person.birthdate(),
+            "date of birth": self.person.birthdate().isoformat(),
             "phone": self.person.telephone(),
             "country": self.person.nationality(),
             "id": str(uuid.uuid4()),
+            "gender": self.person.gender(),
         }
 
-    def generate_address(self):
+    def generate_cashflow(self):
         return {
-            "address": self.address.address(),
-            "city": self.address.city(),
-            "country": self.address.country(),
+            "to": self.generate_person(),
+            "from": self.generate_person(),
+            "amount": self.financial.price(),
+            "date": self.datetime.date().isoformat(),
+            "txn-id": str(uuid.uuid4()),
+            "currency": random.choice(["USD", "EUR", "GBP"]),
+            "description": self.text.sentence(),
         }
 
-    def generate_datetime(self):
+    def generate_credit_score(self):
         return {
-            "date": self.datetime.date(),
-            "time": self.datetime.time(),
+            "date": self.datetime.date().isoformat(),
+            "time": self.datetime.time().isoformat(),
             "timestamp": self.datetime.timestamp(),
         }
 
     def generate_transaction(self, type: Annotated[str, ["card", "crypto"]]):
         if type == "card":
             return {
-                "amount": round(random.random() * 1_000, 2),
-                "card expiry": self.transaction.credit_card_expiration_date(),
-                "card number": self.transaction.credit_card_number(),
+                "amount": round(random.random() * 1_000_000, 2),
                 "cvv": self.transaction.cvv(),
                 "card owner": self.transaction.credit_card_owner(),
                 "card network": self.transaction.credit_card_network(),
@@ -51,7 +57,7 @@ class DataGenerator:
             return {
                 "amount": round(random.random() * 1_000, 5),
                 "crypto address": self.transaction.bitcoin_address(),
-                "crypto currency": self.transaction.random(["BTC", "ETH", "LTC"]),
+                "crypto currency": random.choice(["BTC", "ETH", "LTC"]),
                 "date": self.datetime.date().isoformat(),
                 "txn id": str(uuid.uuid4()),
             }
