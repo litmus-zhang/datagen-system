@@ -50,6 +50,7 @@ class DataGenerator:
                 "cvv": self.transaction.cvv(),
                 "card owner": self.transaction.credit_card_owner(),
                 "card network": self.transaction.credit_card_network(),
+                "currency": random.choice(["USD", "EUR", "GBP"]),
                 "txn date": self.datetime.date().isoformat(),
                 "txn id": str(uuid.uuid4()),
             }
@@ -57,7 +58,7 @@ class DataGenerator:
             return {
                 "amount": round(random.random() * 1_000, 5),
                 "crypto address": self.transaction.bitcoin_address(),
-                "crypto currency": random.choice(["BTC", "ETH", "LTC"]),
-                "date": self.datetime.date().isoformat(),
+                "crypto currency": self.financial.cryptocurrency_symbol(),
+                "txn date": self.datetime.date().isoformat(),
                 "txn id": str(uuid.uuid4()),
             }
