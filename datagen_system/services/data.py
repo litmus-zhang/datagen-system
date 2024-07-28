@@ -58,7 +58,7 @@ class DataGenerator:
             return {
                 "amount": round(random.random() * 1_000, 5),
                 "crypto address": self.transaction.bitcoin_address(),
-                "crypto currency": self.financial.cryptocurrency_symbol(),
+                "crypto currency": self.financial.cryptocurrency_symbol().capitalize(),
                 "txn date": self.datetime.date().isoformat(),
                 "txn id": str(uuid.uuid4()),
             }
