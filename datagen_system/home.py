@@ -18,45 +18,33 @@ qty = st.slider("Select a quantity", 0, 10000, 10)
 # st.snow()
 
 
-def generate_data(selection=selection, quantity=qty):
+def generate_data(sel=selection, quantity=qty):
     # Data generation based on user selection
     res = []
-    match selection:
+    match sel:
         case "Income":
             res = [data.generate_transaction("card") for _ in range(quantity)]
-            if res:
-                st.write(res)
-                st.success("Data generation complete!")
 
         case "Expenses":
             res = [data.generate_transaction("crypto") for _ in range(quantity)]
-            if res:
-                st.write(res)
-                st.success("Data generation complete!")
 
         case "Cashflow":
             res = [data.generate_cashflow() for _ in range(quantity)]
-            if res:
-                st.write(res)
-                st.success("Data generation complete!")
 
         case "Credit Score":
             res = [data.generate_credit_score() for _ in range(quantity)]
-            if res:
-                st.write(res)
-                st.success("Data generation complete!")
 
         case "User Profile":
             res = [data.generate_person() for _ in range(quantity)]
-            if res:
-                st.write(res)
-                st.success("Data generation complete!")
-    return res
+    if res:
+        return res
 
 
 def action():
     # Generate the data
     result = generate_data(selection, qty)
+    st.write(result)
+    st.success("Data generation complete!")
 
     # Convert the data to a DataFrame
     df = pd.DataFrame(result)
